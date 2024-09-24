@@ -29,51 +29,37 @@ void swapOddNumberColumn(char **argv, int matrix_column_size) {
     }
 }
 
+// Function to print the matrix
+void printMatrix(int argv_size, char **argv, int matrix_size) {
+    for (int i = 2; i < argv_size; i++) {
+        int argv_element = atoi(*(argv + i)); // Convert the argument to an integer
+        if (i % matrix_size == 1) {
+            printf("%4d\n", argv_element); // Print element and move to the next line
+        } else {
+            printf("%4d", argv_element); // Print element in the same row
+        }
+    }
+    printf("\n");
+}
+
 int main(int argc, char *argv[]) {
     int argv_size = argc;
-    int matrix_row_size = sqrt(argv_size - 2); // Calculate the number of rows in the matrix
-    int matrix_column_size = sqrt(argv_size - 2); // Calculate the number of columns in the matrix
+    int matrix_size = sqrt(argv_size - 2); // Calculate the number of rows and columns in the matrix
 
     // Output the original matrix
-    printf("Original matrix:\n");
-    for (int i = 2; i < argv_size; i++) {
-        int argv_element = atoi(*(argv + i));
-        if ((i - 2) % matrix_row_size == 0) {
-            printf("\n");
-        }
-        printf("%4d", argv_element);
-    }
-    printf("\n");
-
+    printMatrix(argv_size, argv, matrix_size);
+    
     // Swap the first and third rows
-    swapOddNumberRow((argv + 2), matrix_row_size);
+    swapOddNumberRow((argv + 2), matrix_size);
 
-    printf("\n");
     // Output the matrix after row swap
-    printf("After swap row:\n");
-    for (int i = 2; i < argv_size; i++) {
-        int argv_element = atoi(*(argv + i));
-        if ((i - 2) % matrix_row_size == 0) {
-            printf("\n");
-        }
-        printf("%4d", argv_element);
-    }
-    printf("\n");
+    printMatrix(argv_size, argv, matrix_size);
 
     // Swap the first and third columns
-    swapOddNumberColumn((argv + 2), matrix_column_size);
+    swapOddNumberColumn((argv + 2), matrix_size);
 
-    printf("\n");
     // Output the matrix after column swap
-    printf("After swap column:\n");
-    for (int i = 2; i < argv_size; i++) {
-        int argv_element = atoi(*(argv + i));
-        if ((i - 2) % matrix_row_size == 0) {
-            printf("\n");
-        }
-        printf("%4d", argv_element);
-    }
-    printf("\n");
+    printMatrix(argv_size, argv, matrix_size);
 
     return 0;
 }
