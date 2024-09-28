@@ -22,7 +22,7 @@ tNumList *fill_list(tNumList *list, int userInputNumber) {
     list->p_list = (int *)malloc((userInputNumber) * sizeof(int));
     for (int i = 0; i < userInputNumber; i++) {
         // Read each integer from user input
-        scanf("%d", &(list->p_list[i]));
+        scanf("%d", (list->p_list+i));
     }
     return list;
 }
@@ -60,24 +60,24 @@ void merge(tNumList *list1, tNumList *list2) {
 
     // Merge the two lists by comparing elements
     while (list1Index < list1Length && list2Index < list2Length) {
-        if ((list1->p_list[list1Index]) < (list2->p_list[list2Index])) {
-            printf("%2d ", list1->p_list[list1Index]);
+        if (*(list1->p_list+list1Index) < *(list2->p_list+list2Index)) {
+            printf("%2d ", *(list1->p_list+list1Index));
             list1Index++;
         } else {
-            printf("%2d ", list2->p_list[list2Index]);
+            printf("%2d ", *(list2->p_list+list2Index));
             list2Index++;
         }
     }
 
     // Print remaining elements from list1 if any
     while (list1Index < list1Length) {
-        printf("%2d ", list1->p_list[list1Index]);
+        printf("%2d ", *(list1->p_list+list1Index));
         list1Index++;
     }
 
     // Print remaining elements from list2 if any
     while (list2Index < list2Length) {
-        printf("%2d ", list2->p_list[list2Index]);
+        printf("%2d ", *(list2->p_list+list2Index));
         list2Index++;
     }
 }
@@ -127,4 +127,7 @@ int main(void) {
     // Merge and print the two sorted lists
     printf("merged list: ");
     merge(list1, list2);
+
+    free(list1);
+    free(list2);
 }
