@@ -105,4 +105,5 @@ int main(void){
     list = (tNumStorHead *) malloc (sizeof(tNumStorHead));  // Allocate memory for the list
     initial_list(list);  // Initialize the list
     get_input(list);  // Start getting user input
+    free(list);
 }
