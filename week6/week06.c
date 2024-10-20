@@ -33,40 +33,37 @@ void sort_list(tNumStorHead *list, int input){
         list->head = new_age;
         list->tail = new_age;
     }
+    else if(new_age->number < list->head->number){
+        new_age->next = list->head;
+        list->head = new_age;
+    }
     else{
-        // If the new number is smaller than the head, insert it at the head
-        if(new_age->number < list->head->number){
-            new_age->next = list->head;
-            list->head = new_age;
-        }
-        else{
-            // Traverse the list to find the correct position for the new element
-            tNumStorage *head = list->head;
-            while (head != NULL){
-                // If we are at the tail of the list
-                if(head == list->tail){
-                    // Insert before the tail if the new number is smaller
-                    if(new_age->number < list->tail->number){
-                        new_age->next = list->tail;
-                        head->next = new_age;
-                    }
-                    else{
-                        // Insert after the tail if the new number is larger
-                        list->tail->next = new_age;
-                        list->tail = new_age;
-                    }
-                    break;  // Exit the loop once the element is inserted
+        // Traverse the list to find the correct position for the new element
+        tNumStorage *head = list->head;
+        while (head != NULL){
+            // If we are at the tail of the list
+            if(head == list->tail){
+                // Insert before the tail if the new number is smaller
+                if(new_age->number < list->tail->number){
+                    new_age->next = list->tail;
+                    head->next = new_age;
                 }
                 else{
-                    // Insert the new element in the middle of the list
-                    if(new_age->number < head->next->number){
-                        new_age->next = head->next;
-                        head->next = new_age;
-                        break;  // Exit the loop once the element is inserted
-                    }
+                    // Insert after the tail if the new number is larger
+                    list->tail->next = new_age;
+                    list->tail = new_age;
                 }
-                head = head->next;  // Move to the next node
+                break;  // Exit the loop once the element is inserted
             }
+            else{
+                // Insert the new element in the middle of the list
+                if(new_age->number < head->next->number){
+                    new_age->next = head->next;
+                    head->next = new_age;
+                    break;  // Exit the loop once the element is inserted
+                }
+            }
+            head = head->next;  // Move to the next node
         }
     }
     list->counts++;  // Increment the element count in the list
