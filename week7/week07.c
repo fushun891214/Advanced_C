@@ -4,7 +4,7 @@
 // Define a structure to store individual numbers in the list
 typedef struct num_storage{
     int number;                        // The number to be stored
-    struct num_storage *previous;      // Pointer to the previous node in the list
+    struct num_storage *prev;      // Pointer to the previous node in the list
     struct num_storage *next;          // Pointer to the next node in the list
 } tNumStorage;
 
@@ -45,7 +45,7 @@ void sort_list(tNumStorHead *list, int input){
     new_age = (tNumStorage *) malloc (sizeof(tNumStorage));  // Allocate memory for the new element
     new_age->number = input;  // Set the input number to the new element
     new_age->next = NULL;     // Initialize the next pointer as NULL
-    new_age->previous = NULL; // Initialize the previous pointer as NULL
+    new_age->prev = NULL; // Initialize the previous pointer as NULL
 
     // If the list is empty, the new element becomes both the head and the tail
     if(list->counts == 0){
@@ -55,7 +55,7 @@ void sort_list(tNumStorHead *list, int input){
     else if(new_age->number < list->head->number){
         // If the new element is smaller than the head element, insert it at the front
         new_age->next = list->head;
-        list->head->previous = new_age;
+        list->head->prev = new_age;
         list->head = new_age;
     }
     else{
@@ -67,14 +67,14 @@ void sort_list(tNumStorHead *list, int input){
                 // Insert before the tail if the new number is smaller
                 if(new_age->number < current->number){
                     new_age->next = current;
-                    new_age->previous = current->previous;
-                    current->previous->next = new_age;
-                    current->previous = new_age;
+                    new_age->prev = current->prev;
+                    current->prev->next = new_age;
+                    current->prev = new_age;
                 }
                 else{
                     // Insert after the tail if the new number is larger
                     current->next = new_age;
-                    new_age->previous = current;
+                    new_age->prev = current;
                     list->tail = new_age;
                 }
                 break;  // Exit the loop once the element is inserted
@@ -83,9 +83,9 @@ void sort_list(tNumStorHead *list, int input){
                 // Insert the new element in the middle of the list
                 if(new_age->number < current->next->number){
                     new_age->next = current->next;
-                    new_age->previous = current;
+                    new_age->prev = current;
                     current->next = new_age;
-                    new_age->next->previous = new_age;
+                    new_age->next->prev = new_age;
                     break;  // Exit the loop once the element is inserted
                 }
             }
@@ -105,7 +105,7 @@ void delete_last(tNumStorHead *list){
         list->tail = NULL;           // Set tail to NULL
     }
     else{
-        list->tail = list->tail->previous; // Move the tail to the previous element
+        list->tail = list->tail->prev; // Move the tail to the previous element
         free(list->tail->next);            // Free the memory for the old tail
         list->tail->next = NULL;           // Set the new tail's next pointer to NULL
         list->counts--;                    // Decrease the element count
