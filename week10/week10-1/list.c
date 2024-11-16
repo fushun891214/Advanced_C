@@ -1,52 +1,10 @@
-#include<stdio.h>
-#include<stdlib.h>
-
-// Define a structure to store individual numbers in the list
-typedef struct num_storage{
-    int number;                      // The number to be stored
-    struct num_storage *prev;        // Pointer to the previous node in the list
-    struct num_storage *next;        // Pointer to the next node in the list
-} tNumStorage;
-
-// Define a structure to manage the list head, tail, and counts
-typedef struct num_stor_head{
-    int counts;                      // Total number of elements in the list
-    struct num_storage *head;        // Pointer to the head (first element) of the list
-    struct num_storage *tail;        // Pointer to the tail (last element) of the list
-} tNumStorHead;
+#include "list.h"
 
 // Function to initialize the list (set counts to 0, head and tail to NULL)
 void initial_list(tNumStorHead *list){
     list->counts = 0;                // Initialize the element count to 0
     list->head = NULL;               // Set the head pointer to NULL (empty list)
     list->tail = NULL;               // Set the tail pointer to NULL (empty list)
-}
-
-// Function to print the entire list from head to tail and tail to head
-void print_list(tNumStorHead *list){
-    tNumStorage *node_ptr;
-
-    printf("\n");
-    printf("counts: %d \n", list->counts);  // Print the total element count
-    node_ptr = list->head;
-    printf(" From head --> ");
-
-    // Print the list from head to tail
-    while (node_ptr != NULL){
-        printf("%d ", node_ptr->number);
-        node_ptr = node_ptr->next;
-    }
-
-    node_ptr = list->tail;
-    printf("\n From tail --> ");
-
-    // Print the list from tail to head
-    while (node_ptr != NULL){
-        printf("%d ", node_ptr->number);
-        node_ptr = node_ptr->prev;
-    }
-
-    printf("\n\n");
 }
 
 // Function to add a new node at a specific position
@@ -113,7 +71,6 @@ void add_Node(tNumStorHead *list, int input_value, int input_position, int input
     }
 
     list->counts++;  // Increment the total element count
-    print_list(list);  // Print the list after insertion
 }
 
 // Function to remove a node from a specific position
@@ -144,46 +101,4 @@ void remove_Node(tNumStorHead *list, int input_position){
     }
 
     list->counts--;  // Decrement the total element count
-    print_list(list);  // Print the list after deletion
-}
-
-// Function to get user input and perform add or delete operations on the list
-void get_input(tNumStorHead *list){
-    int input_status = 0;
-    int input_value = 0;
-    int input_position = 0;
-    int input_before_or_after_position = 0;
-
-    while (1) {  
-        printf("1. Add a number or 2. Delete a number: ");  
-        scanf("%d", &input_status);
-        
-        if (input_status == 1) {  // Add a number
-            printf(" Add a number: "); 
-            scanf("%d", &input_value); 
-            if (list->counts != 0) {
-                printf("  Specify a target location: ");
-                scanf("%d", &input_position);
-                printf("  1. Before or 2. After the location %d: ", input_position);
-                scanf("%d", &input_before_or_after_position);
-            }
-            add_Node(list, input_value, input_position, input_before_or_after_position);
-        }
-        else if (input_status == 2) { // Delete a number
-            printf(" Specify a target location: ");
-            scanf("%d", &input_position); 
-            remove_Node(list, input_position);
-        }
-        else { // Invalid choice
-            printf(" Invalid choice!\n");
-        }
-    }
-}
-
-int main(void){
-    tNumStorHead *list;
-    list = (tNumStorHead *) malloc (sizeof(tNumStorHead));  // Allocate memory for the list
-    initial_list(list);  // Initialize the list
-    get_input(list);  // Start getting user input
-    free(list);  // Free the memory allocated for the list
 }
